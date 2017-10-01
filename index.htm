@@ -4,9 +4,9 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex, nofollow" />
-  <title>Portraits: Wind, Thunder and Love Press Kit</title>
+  <title>The Seven Heavenly Virtues Press Kit</title>
 
-  <meta name="description" content="Joseph Daley's  Portraits Wind, Thunder and Love Press Kit features sound bites, projects, itinerary, biography" />
+  <meta name="description" content="Joseph Daley's The Seven Heavenly Virtues Press Kit features sound bites, projects, itinerary, biography" />
   <link rel="shortcut icon" href="/icons/favicon.ico">
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
   <link media="screen" rel="stylesheet" href="assets/css/colorbox.css" />
@@ -14,185 +14,7 @@
 
   <script type="text/javascript" src="assets/js/jquery.min.js"></script>
   <script type="text/javascript" src="assets/js/jquery.colorbox-min.js"></script>
-  <script type="text/javascript" src="assets/js/jquery.jplayer.min.js"></script>
-  <script type="text/javascript">
-
-   
-
-    /* -- jPlayer script -- */
-            $(document).ready(function(){
-
-                var Playlist = function(instance, playlist, options) {
-                    var self = this;
-
-                    this.instance = instance; // String: To associate specific HTML with this playlist
-                    this.playlist = playlist; // Array of Objects: The playlist
-                    this.options = options; // Object: The jPlayer constructor options for this playlist
-
-                    this.current = 0;
-
-                    this.cssId = {
-                        jPlayer: "jquery_jplayer_",
-                        interface: "jp_interface_",
-                        playlist: "jp_playlist_"
-                    };
-                    this.cssSelector = {};
-
-                    $.each(this.cssId, function(entity, id) {
-                        self.cssSelector[entity] = "#" + id + self.instance;
-                    });
-
-                    if(!this.options.cssSelectorAncestor) {
-                        this.options.cssSelectorAncestor = this.cssSelector.interface;
-                    }
-
-                    $(this.cssSelector.jPlayer).jPlayer(this.options);
-
-                    $(this.cssSelector.interface + " .jp-previous").click(function() {
-                        self.playlistPrev();
-                        $(this).blur();
-                        return false;
-                    });
-
-                    $(this.cssSelector.interface + " .jp-next").click(function() {
-                        self.playlistNext();
-                        $(this).blur();
-                        return false;
-                    });
-                };
-
-                Playlist.prototype = {
-                    displayPlaylist: function() {
-                        var self = this;
-                        $(this.cssSelector.playlist + " ol").empty();
-                        for (i=0; i < this.playlist.length; i++) {
-                            var listItem = (i === this.playlist.length-1) ? "<li class='jp-playlist-last'>" : "<li>";
-                            listItem += "<a href='#' id='" + this.cssId.playlist + this.instance + "_item_" + i + "' tabindex='1'>" + this.playlist[i].name + "</a><span class='duration'>[" + this.playlist[i].duration + "]</span><br /><span class='group'>" + this.playlist[i].description + "</span><br/><span ><img src='" + this.playlist[i].image + "' width='170' height='150' class='cdartwork dropshadow' /></span>";
-
-                            // Create links to free media
-                            if(this.playlist[i].free) {
-                                var first = true;
-                                listItem += "<div class='jp-free-media'>(";
-                                $.each(this.playlist[i], function(property,value) {
-                                    if($.jPlayer.prototype.format[property]) { // Check property is a media format.
-                                        if(first) {
-                                            first = false;
-                                        } else {
-                                            listItem += " | ";
-                                        }
-                                        listItem += "<a id='" + self.cssId.playlist + self.instance + "_item_" + i + "_" + property + "' href='" + value + "' tabindex='1'>" + property + "</a>";
-                                    }
-                                });
-                                listItem += ")</span>";
-                            }
-
-                            listItem += "</li>";
-
-                            // Associate playlist items with their media
-                            $(this.cssSelector.playlist + " ol").append(listItem);
-                            $(this.cssSelector.playlist + "_item_" + i).data("index", i).click(function() {
-                                var index = $(this).data("index");
-                                if(self.current !== index) {
-                                    self.playlistChange(index);
-                                } else {
-                                    $(self.cssSelector.jPlayer).jPlayer("play");
-                                }
-                                $(this).blur();
-                                return false;
-                            });
-
-                            // Disable free media links to force access via right click
-                            if(this.playlist[i].free) {
-                                $.each(this.playlist[i], function(property,value) {
-                                    if($.jPlayer.prototype.format[property]) { // Check property is a media format.
-                                        $(self.cssSelector.playlist + "_item_" + i + "_" + property).data("index", i).click(function() {
-                                            var index = $(this).data("index");
-                                            $(self.cssSelector.playlist + "_item_" + index).click();
-                                            $(this).blur();
-                                            return false;
-                                        });
-                                    }
-                                });
-                            }
-                        }
-                    },
-                    playlistInit: function(autoplay) {
-                        if(autoplay) {
-                            this.playlistChange(this.current);
-                        } else {
-                            this.playlistConfig(this.current);
-                        }
-                    },
-                    playlistConfig: function(index) {
-                        $(this.cssSelector.playlist + "_item_" + this.current).removeClass("jp-playlist-current").parent().removeClass("jp-playlist-current");
-                        $(this.cssSelector.playlist + "_item_" + index).addClass("jp-playlist-current").parent().addClass("jp-playlist-current");
-                        this.current = index;
-                        $(this.cssSelector.jPlayer).jPlayer("setMedia", this.playlist[this.current]);
-                    },
-                    playlistChange: function(index) {
-                        this.playlistConfig(index);
-                        $(this.cssSelector.jPlayer).jPlayer("play");
-                    },
-                    playlistNext: function() {
-                       var index = (this.current + 1 < this.playlist.length) ? this.current + 1 : 0;                       this.playlistChange(index);
-                    },
-                    playlistPrev: function () {
-                        var index = (this.current - 1 >= 0) ? this.current - 1 : this.playlist.length - 1;
-                        this.playlistChange(index);
-                    }
-                };
-
-                var audioPlaylist = new Playlist("2", [
-                    {
-                    name: "1. Wispercussion Five Portraits of Warren Smith Movement One",
-                    duration: "2:51",
-                        description: "Wispercussion is a five-part suite for chamber orchestra that features percussionist Warren Smith. Each movement is a solo feature for Warren on one of the many percussion instruments that he has mastered.",
-                        venue: "",
-                        mp3: "assets/audio/01_Wispercussion_Portraits_of_Warren_Sample.mp3",
-                        image: "assets/img/SlideShow/WSP_MVT1sm.jpg"
-                    },
-                    {
-                      name: "2. Wispercussion Five Portraits of Warren Smith Movement Two",
-                      duration: "2:32",
-                      description: "Marimba in an open fourths and fifths setting structured on African polyrhythm.",
-                        venue: "",
-                        mp3: "assets/audio/02_Wispercussion_Portraits_of_Warren_Sample.mp3",
-                        image: "assets/img/SlideShow/WSP_MVT2sm.jpg"
-                    },
-                    {
-                      name: "3. Wispercussion Five Portraits of Warren Smith Movement Three",
-                        duration:"3:59",
-                        description: "Tympani in a solo portrait that explores the melodic potential of this instrument. This movement is centered on the blues.",
-                        venue: "",
-                        mp3: "assets/audio/03_Wispercussion_Portraits_of_Warren_Sample.mp3",
-                        image: "assets/img/SlideShow/WSP_MVT3sm.jpg"
-                    },
-                    {
-                      name: "3. SHADRACK: Portrait of Bill Cole",
-                      duration:"7:23",
-                      description: "A dedication to the remarkable multi-instrumentalist",
-                      venue: "",
-                      mp3: "assets/audio/06_Shadrack_sample.mp3",
-                      image: "assets/img/SlideShow/Shadracksm.jpg"
-                    }
-
-                ], {
-                    ready: function() {
-                        audioPlaylist.displayPlaylist();
-                        audioPlaylist.playlistInit(false); // Parameter is a boolean for autoplay.
-                    },
-                    ended: function() {
-                        audioPlaylist.playlistNext();
-                    },
-                    play: function() {
-                        $(this).jPlayer("pauseOthers");
-                    },
-                    swfPath: "./js",
-                    supplied: "mp3"
-                });
-            });
-  </script>
-
+ 
   <script type="text/javascript">
     $(document).ready(function(){
         $("a[rel='mr_gallery']").colorbox({
@@ -223,202 +45,113 @@
   </script>
 </head>
 <body>
-  <div id="jquery_jplayer_2" class="jp-jplayer"></div>
   <div id="wrapper">
     <div id="header">
       <h1><img src="assets/img/presskit_title.png" class="round" alt="Joseph Daley" width="620" height="60" /></h1>
 
     </div>
     <div class="content">
-      <h2>&nbsp;Portraits -  Wind, Thunder And Love - Press Kit</h2>
+      <h2>&nbsp;The Seven Heavenly Virtues - Press Kit</h2>
+      <br/>
+      <h2>Video</h2>
       <div class="col">
-        <div id="gallery">
-          <h2>Photo Gallery</h2>
-          <ul>
-            <li>
-              <a href="assets/img/SlideShow/12.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/12.jpg" width="150" height="150" alt="PORTRAITS WIND, THUNDER AND LOVE" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/basssectionsm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/basssectionsm.jpg" width="150" height="150" alt="Bass Section" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/cellosectionsm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/cellosectionsm.jpg" width="150" height="150" alt="Cello Section" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/Doretha2_sm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/Doretha2_sm.jpg" width="150" height="150" alt="Doretha and the Blues" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/fullensemble1sm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/fullensemble1sm.jpg" width="150" height="150" alt="Full Ensemble" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/Industria_1sm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/Industria_1sm.jpg" width="150" height="150" alt="Industria" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/JoDa_1sm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/JoDa_1sm.jpg" width="150" height="150" alt="Composer/Conductor: Joseph Daley" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/Shadracksm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/Shadracksm.jpg" width="150" height="150" alt="Bill Cole: Nagaswarm" />
-              </a>
-            </li>
-            <li>
-            <a href="assets/img/SlideShow/violasectionsm.jpg" rel="mr_gallery">
-              <img src="assets/img/SlideShow/violasectionsm.jpg" width="150" height="150" alt="Mark Taylor" />
-            </a>
-            <li>
-              <a href="assets/img/SlideShow/violinsectionsm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/violinsectionsm.jpg" width="150" height="150" alt="Viola Section" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/WSP_MVT1sm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/WSP_MVT1sm.jpg" width="150" height="150" alt="Violin Section" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/WSP_MVT2sm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/WSP_MVT2sm.jpg" width="150" height="150" alt="Warren Smith: Marimba" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/WSP_MVT3sm.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/WSP_MVT3sm.jpg" width="150" height="150" alt="Warren Smith: Tympani" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/WSP_MVT4sq.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/WSP_MVT4sq.jpg" width="150" height="150" alt=" Warren Smith" />
-              </a>
-            </li>
-            <li>
-              <a href="assets/img/SlideShow/WSP_MVT5sq.jpg" rel="mr_gallery">
-                <img src="assets/img/SlideShow/WSP_MVT5sq.jpg" width="150" height="150" alt="Warren Smith: Drum Kit" />
-              </a>
-            </li>
-          </ul>
-          <p>Click an image to see a larger version</p>
+        <div class="dropshadow">
+          <iframe width="480" height="303" type="text/html" src="http://www.youtube.com/embed/7Sk65oewV2w?rel=0&amp;wmode=transparent" frameborder="0" allowfullscreen></iframe>
+          <p class="caption center">The Seven Heavenly Virtues Documentary - insight into the production of The Seven Heavenly Virtues string ensemble CD project</p>
         </div>
-        
-        <h2>Video</h2>
-        <div id="video" class="dropshadow">
-          <iframe width="480" height="303" type="text/html" src="http://www.youtube.com/embed/zSMavJ4AZ5k?rel=0&amp;wmode=transparent" frameborder="0" allowfullscreen></iframe>
-          <p class="caption center">Clip from Wispercussion Five Portraits of Warren Smith Movement Three</p>
+        <div class="dropshadow">
+          <iframe width="480" height="303" type="text/html" src="http://www.youtube.com/embed/m9-P4aw5OHA?rel=0&amp;wmode=transparent" frameborder="0" allowfullscreen></iframe>
+          <p class="caption center">Patience</p>
+        </div>
+        <div class="dropshadow">
+          <iframe width="480" height="303" type="text/html" src="http://www.youtube.com/embed/liI7-xoX7oc?rel=0&amp;wmode=transparent" frameborder="0" allowfullscreen></iframe>
+          <p class="caption center">Humility</p>
+        </div>
+        <div class="dropshadow">
+          <iframe width="480" height="303" type="text/html" src="http://www.youtube.com/embed/mhaj95_EIcM?rel=0&amp;wmode=transparent" frameborder="0" allowfullscreen></iframe>
+          <p class="caption center">Temperance</p>
+        </div>
+        <div class="dropshadow">
+          <iframe width="480" height="303" type="text/html" src="http://www.youtube.com/embed/NFP1i9WG63E?rel=0&amp;wmode=transparent" frameborder="0" allowfullscreen></iframe>
+          <p class="caption center">Billy Bang Sketch</p>
         </div>
       </div>
-      <div class="col" id="jukebox">
-        <h2>Audio Sampler</h2>
-        <div class="jp-audio">
-          <div class="jp-type-playlist">
-            <div id="jp_playlist_2" class="jp-playlist">
-              <ol>
-                <!-- The method Playlist.displayPlaylist() uses this ordered list -->
-                <li></li>
-              </ol>
-            </div>
-            <div id="jp_interface_2" class="jp-interface">
-              <ul class="jp-controls">
-                <li><a href="#" class="jp-play" tabindex="1">play</a></li>
-                <li><a href="#" class="jp-pause" tabindex="1">pause</a></li>
-                <li><a href="#" class="jp-stop" tabindex="1">stop</a></li>
-                <li><a href="#" class="jp-previous" tabindex="1">previous</a></li>
-                <li><a href="#" class="jp-next" tabindex="1">next</a></li>
-              </ul>
-              <div class="jp-progress">
-                <div class="jp-seek-bar">
-                  <div class="jp-play-bar"></div>
-                </div>
-              </div>
-              <div class="jp-volume-bar">
-                <div class="jp-volume-bar-value"></div>
-              </div>
-              <span class="jp-current-time"></span> | <span class="jp-duration"></span>
-            </div><!-- #jp_interface_2 -->
-          </div><!-- .jp-type-playlist -->
-        </div><!-- .jp-audio -->
-      </div><!-- #jukebox -->
-    </div>
+     </div>
     <div class="content">
       <aside id="featured" class="body">
         <article>
           <figure>
-            <img src="assets/img/portraitscover.jpg" class="dropshadow" width="320" height="320" alt="Joseph Daley: Portraits : Wind, Thunder and Love">
+            <img src="assets/img/7virtuescover.jpg" class="dropshadow" width="320" height="320" alt="Joseph Daley: The Seven Heavenly Virtues">
           </figure>
           <hgroup>
-            <h2>Portraits - Wind, Thunder And Love</h2>
+            <h2>The Seven Heavenly Virtues</h2>
           </hgroup>
-          <p>This album features a full string orchestra – eight violins, four violas, four celli, two basses, piano and percussion. The music is a seamless whole – fiery, uplifting, exciting, stimulating, both vehemently rhythmic and evocatively atmospheric; startling at times, soothing at others….but always powerful, transcendent and breathtakingly beautiful.</p>
-          <p><i><b>Wispercussion</b></i> is a five-part suite for chamber orchestra that features percussionist Warren Smith. Each movement is a solo feature for Warren on one of the many percussion instruments that he has mastered.</p>
-          <p><i><b>Movement one:</b></i> Vibraphone in a twelve tonal setting with sections of motif and textural repetitions.</p>
-          <p><i><b>Movement two:</b></i> Marimba in an open fourths and fifths setting structured on African polyrhythm.</p>
-          <p><i><b>Movement three:</b></i> Tympani in a solo portrait that explores the melodic potential of this instrument. This movement is centered on the blues.</p>
-          <p><i><b>Movement four:</b></i> Gongs in a modal chorale setting with four improvisational events.</p>
-          <p><i><b>Movement five:</b></i> Drum set in a portrait that will feature individual and collective use of the snare drum, cymbals, tom toms and bass drum. This final movement uses Brazilian rhythms as a foundation.</p>
-        
-          <p><i><b>SHADRACK: Portrait of Bill Cole</b></i> Orchestrated originally for mixed reeds, then brass ensemble and finally for string ensemble. It features Bill Cole on the South Indian Nagaswaram, a double reed instrument with a haunting but beautiful tone. Shadrack is Bill’s middle name and also his great uncle who birthed him, his son Atticus and grandson, Tighe. Bill’s great Uncle Shad, was a pioneer who with four other surgeons founded the first Black Hospital in the state of Virginia in the late 1800's.</p>
-          <p>Bill Cole is an American jazz musician, composer, educator and author. An admired innovator in the music world, Cole successfully combines Eastern sounds with an American art form – jazz. Cole specializes in non-Western wind instruments, especially double reed horns – including Chinese sonas, Korean hojok and piri, Indian nagaswarm and shenai and Tibetan trumpet, as well as the Australian didgeridoo and Ghanaian flute.</p>
-        <h2>CREDITS</h2>
-        <h3>Personnel</h3>
-          <div class="relative">
-            <ul class="credits">
-              <li> Curtis Stewart<span class="tab"> Violin, Concertmaster</span></li>
-              <li> Mazz Swift<span class="tab"> Violin</span></li>
-              <li> Jason Hwang<span class="tab"> Violin</span></li>
-              <li> Skye Steele<span class="tab"> Violin</span></li>
-              <li> Charles Burnham<span class="tab"> Violin</span></li>
-              <li> Elektra Kurtis<span class="tab"> Violin</span></li>
-              <li> Jessie Montgomery<span class="tab"> Violin</span></li>
-              <li> Sarah Bernstein<span class="tab"> Violin</span></li>
-              <li> Nick Revel<span class="tab"> Viola</span></li>
-              <li> Janina Norpoth<span class="tab"> Viola</span></li>
-              <li> Trevor New<span class="tab"> Viola</span></li>
-              <li> Nora Krohn<span class="tab"> Viola</span></li>
-              <li> Akua Dixon<span class="tab"> Cello</span></li>
-              <li> Marika Hughes<span class="tab"> Cello</span></li>
-              <li> Amanda Gookin<span class="tab"> Cello</span></li>
-              <li> Rubin Kodheli<span class="tab"> Cello</span></li>
-              <li> Ken Filiano<span class="tab"> Bass</span></li>
-              <li> Ben Brown<span class="tab"> Bass</span></li>
-              <li> Lafayette Harris<span class="tab"> Piano and Keyboards</span></li>
-              <li> Warren Smith<span class="tab"> Percussion</span></li>
-              <li> Jerry Gonzalez <span class="tab">Trumpet and Percussion </span></li>
-              <li> Onaje Allan Gumbs<span class="tab">Keyboards </span></li>
-              <li> Satoko Takeishi<span class="tab"> Percussion </span></li>
-              <li> Richard Huntley<span class="tab">Percussion </span></li>
-              <li> Gregory Williams<span class="tab"> French Horn</span></li>
-            </ul>
-        </div><!-- .listInlineCsv -->
-           
-          </div>
+          <p>A CD project based on The Seven Heavenly Virtues by composer Joseph Daley, released September, 2013 on JoDaMusic Records a division of Catghaut Arts Inc.</p>
+       
+        <h2>Track List</h2>
+        <div class="relative">
+          <ul class="credits">
+            <li> <i><b>Patience</b></i></li>
+            <li> <i><b>Diligence</b></i></li>
+            <li> <i><b>Chastity</b></i></li>
+            <li> <i><b>Humility</b></i></li>
+            <li> <i><b>Charity</b></i> </li>
+            <li> <i><b>Kindness</b></i></li>
+            <li> <i><b>Temperance</b></i></li>
+            <li> <i><b>Wispercussion (Portraits Of Warren Smith) Movement 4</b></i></li>
+            <li> <i><b>Billy Bang Sketch</b></i></li>
+            <li><i><b>Bill Dixon Sketch</b></i></li>
+          </ul>
+        </div>
+
+              <h2>Personnel</h2>
+              <div class="relative">
+                <ul class="credits">
+                  <li> Joseph Daley<span class="tab"> Composer, Music Director</span></li>
+                  <li>  Curtis Stewart<span class="tab"> Violin, concert-master</span></li>
+                  <li>  Mazz Swift<span class="tab"> Violin</span></li>
+                  <li>  Jason Hwang<span class="tab"> Violin</span></li>
+                  <li>  Skye Steele<span class="tab"> Violin</span></li>
+                  <li>  Charles Burnham<span class="tab"> Violin</span></li>
+                  <li>  Elektra Kurtis<span class="tab"> Violin</span></li>
+                  <li>  Jesse Montgomery<span class="tab"> Violin</span></li>
+                  <li>  Sarah Bernstein<span class="tab"> Violin</span></li>
+                  <li>  Nick Revel<span class="tab"> Viola</span></li>
+                  <li>  Janina Norpoth<span class="tab"> Viola</span></li>
+                  <li>  Trevor New<span class="tab"> Viola</span></li>
+                  <li>  Nora Krohn<span class="tab"> Viola</span></li>
+                  <li>  Akua Dixon<span class="tab"> Cello</span></li>
+                  <li>  Marika Hughes<span class="tab"> Cello</span></li>
+                  <li>  Amanda Gookin<span class="tab"> Cello</span></li>
+                  <li>  Rubin Kodheli<span class="tab"> Cello</span></li>
+                  <li>  Ken Filiano<span class="tab"> Bass</span></li>
+                  <li>  Ben Brown<span class="tab"> Bass</span></li>
+                  <li>  Lafayette Harris<span class="tab"> Keyboard, Piano</span></li>
+                  <li>  Warren Smith<span class="tab"> Percussion</span></li>
+                  <li>  Jerry Gonzalez<span class="tab">Trumpet, Percussion</span></li>
+                  <li>  Onaje Allan Gumbs<span class="tab"> Keyboards</span></li>
+                  <li>  Satoshi Takeishi<span class="tab"> Percussion</span></li>
+                  <li>  Richard Huntley<span class="tab"> Percussion</span></li>
+                </ul>
+              </div><!-- .listInlineCsv -->
+
+</div>
     <div class="content">
       <article class="eventcontent">
         <header>
-          <h2>Raul Da Gama’s review of Portraits</h2>
+          <h2>Raul Da Gama’s review of The Seven Heavenly Virtues</h2>
         </header>
         <section>
           <div class="blockquote-with-source">
             <blockquote>
-              The tumult of Joseph Daley’s albums, The Seven Deadly Sins (Jaro, 2010) and The Seven Heavenly Virtues (JoDaMusic, 2013) has abated, only to make way for another fine recording, this time a series of three profound sketches Portraits: Wind, Thunder and Love. All three albums are musically rich, extravagant productions and serve to give notice that Joseph Daley is an astute composer and an exquisitely detailed arranger. His methodology for composition and performance is the employment of an enormous palette which he wields like a painter set to create a most wondrous musical mural the likes of which will fill a room. Here, his use of instrumentation that includes the use of an ocean of strings, orchestral percussion by the ineffable Warren Smith and two horns in the final selection of this recording provides further evidence of Mr. Daley’s complete mastery of his palette. In fact the portraits that he creates are finely divined and bring to life not only masterly musical colours and textures, but also musical characters that the listener can hear and almost see them as if they were presented in a kind of dancing musical hologram. The visual experience is heightened by a tremendously well-rehearsed string orchestra in which two great musicians Warren Smith and Bill Cole participate. This is by no means intended to suggest that the third portrait—of Mr. Daley’s wife is any less interesting without a singular guest artist. In fact all three portraits are engaging and involving because they are richly orchestrated.
+              It is pleasantly surprising when Joseph Daley ascends from the brassy bass realm of the tuba, putting down his massive instrument, to conduct a chamber orchestra. What should not come as a surprise, however, is that Mr. Daley, a musical intellect of the highest order, should put his mind to another complex project—a follow-up to his 2010 Jaro release The Seven Deadly Sins. This time Mr. Daley delves deep into his soul, coming up to relocate the abstract spirituality of The Seven Heavenly Virtues to his new and wonderful landscape of music. Again, Mr. Daley draws upon his vast and varied knowledge of musical colours—experiences he gained from playing with Gil Evans and Carla Bley, among others—but has decided to rely mainly on a part of the palette (strings accented at times by the melodic orchestral percussion of Warren Smith together with Satoshi Takeishi and Jerry Gonzalez, who also doubles on trumpet, as well as Lafayette Harris and Onaje Allan Gumbs on keyboards. The effects are stupendous, to say the least.
               <br />
               <br />
-              Orchestration is Joseph Daley’s other forte. As an arranger he seems to have a deep and almost uncanny understanding of strings and the relationship that the various strings instruments have with one another. Melding the gradual depth of the family from violin to double bass is something Mr. Daley writes for exceedingly well. Their colours and textures and the timbre of each is singularly pronounced in “Wispercussion.” The manner in which the string section intertwines in both bowed and plucked sequences is magical. And when Warren Smith employs his battery of percussion the effect is melodically, harmonically and rhythmically outstanding. In this miniature, Warren Smith has warmly turned the performance of this selection from Joseph Daley into an attractive and expressive musical excursion. “Shadrack” begins with a wailing nageswaram, an Indian double reed that Bill Cole plays with rapturous beauty. The piercing ululations of the horn are interwoven with the strings that enter after Mr. Cole has had his say with thrilling abandon. A feature of his playing that is too often ignored is its spiritual quality. This was something that inspired Mr. Cole throughout his life as he made music of immense import. The heartfelt nature of “Doretha and the Blues” is almost palpable and Mr. Daley cannot be blamed for being unable to distance himself with the love of his life: his wife Wanda. The languid warmth of the orchestral odyssey is punctuated by pithy statements that serve to give real shape to this extravagant blues. Whatever Joseph Daley comes up with it is going to be hard to top these three albums, but that future music is surely going to be interesting to say the least.
+              The depth of thought of each virtue is matched by the density of tone and texture, and the richness of colour and shade created by sets of harmonising strings from soaring violins and fibrillating violas to gasping cellos and rumbling basses. Percussion and keyboards, when introduced into each part of the suite add accents and angular timbre to the music, often joined in by basses playing pizzicato in counterpoint with each other. And then there is the character that is given to each virtue; echoed in the richness of timbre and colour by the confluence of instrumentation. “Diligence” is a sublime example. Introduced by the melodically tuned timpani drums played by the inimitable Warren Smith, the percussionist then draws in the strings and keyboards, flushed with the magnificent sound of violins and violas; cellos askance, lean into the melody. Double stops and rhythmic rumbling of the basses—con arco and pizzicato respectively—create a sort of gravitas that sings duty and exactitude, while violins ascending in wailing mode, dappled by interesting accents on the keyboards create a brilliant three—and sometimes four—dimensional piece, superbly paced as if interminably by Mr. Daley. Each virtue is treated with thoughtfulness and an equal measure of ingenuity as on Mr. Daley can. For instance, “Patience” features a lilting melody heralded by strings, “Humility” sways with the exquisite pianism of Lafayette Harris, soon descending into a passage filled with dissonance as if, it seems, to contrast what must be avoided at all costs, i.e., pride, but the pianist restores himself to a poised state and is joined by the basses in a restful sequence that while bringing the sequence to a conclusion draws in the percussionists first and then the whole orchestra in a beautiful conclusion.
             </blockquote>
             <br/>
             <div class="eventinfo">
-              <a href="http://jazzdagama.com/reviews/cds/joseph-daley-portraits-wind-thunder-and-love/#sthash.hIKp3SoA.dpuf">Read the Full Review: Portraits, a column by Raul da Gama</a>
+              <a href="https://jazzdagama.com/music/joseph-daley-the-seven-heavenly-virtues/">Read the Full Review: The Seven Heavenly Virtues, a column by Raul da Gama</a>
             </div>
             <br/>
             <div class="eventinfo">
